@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
 namespace mf_api_web_services_fuel_manager.Models
 {
     [Table("Carros")]
-    public class Veiculo
+    public class Veiculo : LinksHateos
     {
         [Key]
         public int Id { get; set; }

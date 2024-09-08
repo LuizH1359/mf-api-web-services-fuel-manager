@@ -42,13 +42,16 @@ namespace mf_api_web_services_fuel_manager.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById (int id)
         {
-            var model = await _context.Veiculos.FirstOrDefaultAsync(c => c.Id == id);
+            var model = await _context.Veiculos
+                .Include(t => t.Consumos)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (model == null)
             {
                 return NotFound();
             }
 
+            GerarLinks(model);
             return Ok(model);
         }
 
@@ -78,6 +81,13 @@ namespace mf_api_web_services_fuel_manager.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private void GerarLinks(Veiculo model)
+        {
+            model.Links.Add(new LinkDto(model.Id,Url.ActionLink(), rel: "self", metodo: "GET"));
+            model.Links.Add(new LinkDto(model.Id, Url.ActionLink(), rel: "update", metodo: "PUT"));
+            model.Links.Add(new LinkDto(model.Id, Url.ActionLink(), rel: "delete", metodo: "Delete"));
         }
     }
 }
