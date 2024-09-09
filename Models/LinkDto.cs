@@ -22,4 +22,5 @@
     public class LinksHateos
     {
         public List<LinkDto> Links { get; set; } = new List<LinkDto>();
+    }
 }
